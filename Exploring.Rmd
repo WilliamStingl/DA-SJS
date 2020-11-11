@@ -1,0 +1,165 @@
+---
+title: "exploring"
+author: "William Stingl"
+date: "November 4th, 2020"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Load the necessary libraries
+```{r}
+library(tidyverse)
+library(hexbin)
+```
+
+Take a look inside your dataset
+```{r}
+listings
+```
+
+### Variation
+
+Perform an analysis of the variation in the "neighbourhood" column. 
+
+```{r}
+ggplot(data = listings) + geom_bar(mapping = aes(x = neighbourhood)) + 
+   coord_flip()
+
+listings %>% 
+  count(neighbourhood) %>%
+  arrange(desc(n))
+```
+
+* Which values are the most common? Why?
+
+The most common values seem to be the neighborhoods with the highest population densities. As expected Copacabana, Barra da Tijuca and Ipanema are the most frequent neighborhoods with Airbnb listings, due to the popularity and tourist attractions that these naighborhoods have.
+
+* Which values are rare? Why? Does that match your expectations?
+
+The rarest neighborhoods that contain Airbnb listing like Complexo do Alemao and Mare are actually favelas, low income Brazilian settlements, that have a lot of crime, drug trafficking, and other criminal activities. When you drive past the favelas, it is not uncommon to hear gunshots and see military tanks and guards arround the complexes. This matches my expecation as not many people visiting or planning a vacation getaway would travel to the favelas for their Airbnb experience. 
+
+* Can you see any unusual patterns? What might explain them?
+
+The unusual patterns are that some of the favelas like Rosinha and Cidade de Deus have over 12 Airbnb listings. It may be that these are the more shared room availabilities, where they are offerings for maybe other members of the community.
+
+Perform an analysis of the variation in the "room_type" column. 
+
+```{r}
+listings %>% 
+  count(room_type) %>%
+  arrange(desc(n))
+```
+
+* Which values are the most common? Why?
+
+The most common room types are entire homes and apartments, which makes sense, because when one is vacationing or spending time in Rio, the most popular venues are these types of dwellings. 
+
+* Which values are rare? Why? Does that match your expectations?
+
+The rarest values are shared room and hotel rooms. Hotel rooms are the rarest, because Airbnb is normally a destination for full houses or apartments, and hotel room bookings are normally made on different services if not entirely on hotel websites. Having shared rooms be the penultimate most poppular option also makes sense, because no one really wants to share a room with somebody else. If that were so, you would go to Europe and pay a couple bucks to go live in a hostel. 
+
+* Can you see any unusual patterns? What might explain them?
+
+An usual pattern is hotel rooms being less popular than the shared rooms. Shared rooms are an unusual concept to be on an Airbnb, because of lack of privacy and personal space; however, what might explain this is that hotel rooms are only a recen addition to the Airbnb catalogers. Only being added about a year ago, Airbnb supports "boutique hotels" and family run bed and breakfast operations. With this in consideration, bigger hotels like Copacabana Palace are famous and occupant enough to not need advertisements and listing on the Airbnb apps and websites as they can support themselves, so the market for these small hotels may be small for these reasons. 
+
+Perform an analysis of the variation in the "price" column. Make sure to explore different "binwidth" values in your analysis.
+
+```{r}
+ggplot(data = listings, mapping = aes(x = price)) + 
+  geom_histogram(binwidth = 25) + coord_cartesian(xlim = c(0, 5000))
+
+listings %>% 
+  count(price) %>%
+  arrange(desc(n))
+```
+
+* Which values are the most common? Why?
+
+The most common rates for the Airbnbs lies around the 200-250 range, and this is a reasonable amount of money to spend on a house or room for a night, because it is an affordable amount to spend a week in Rio, and it is reasonably cheaper than an expensive hotel like the Copacabana palace or the Posto 5 Sheraton. 
+
+* Which values are rare? Why? Does that match your expectations?
+
+The rare values are all past the 2500 mark, because then prices become absurdly high for a nightly stay at a house, and not too many people have the income to spend that much money on their vacations to foreign countries. The exponential decay graphs matches this trend, where as prices get more expensive the rate at which Airbnbs are bought decreaces exponentially. 
+
+* Can you see any unusual patterns? What might explain them?
+
+The only anomaly on the graph is perhaps the spike of listings at the 1000 mark. This could be attributable to this uniform and nice number that people gravitate towards, rather than a 950 or a 1050, or it could be attributable to other factors. 
+
+Perform an analysis of the variation in the "minimum_nights" column. Make sure to explore different "binwidth" values in your analysis.
+
+```{r}
+ggplot(data = listings, mapping = aes(x = minimum_nights)) + 
+  geom_histogram(binwidth = 1) + coord_cartesian(xlim = c(0, 100))
+
+listings %>% 
+  count(minimum_nights) %>%
+  arrange(desc(n))
+```
+
+* Which values are the most common? Why?
+
+1, 2, and 3 are the most popular minimum nights spent, because renting Airbnbs is relatively expensive, so requiring a relatively low minimum night requirement is a financially smart decision for the owners of the houses. Also, Airbnbs are normally for domestic travel, where a Brazilian native spends a weekend getaway in another house or a in another town, where they know how the country works and don't need the amenities or concierge service of a hotel. And it makes sense for domestic travel to only be for not that long of a time period 
+
+* Which values are rare? Why? Does that match your expectations?
+
+Absurdly high minimum night requirements like, 1123 days or 265 days are the rarest listing. These seems like more of a rental situation than a vacation or getaway situation. This scenario is plausible for house owners that want a long term source of income from their second houses through Airbnb. 
+
+* Can you see any unusual patterns? What might explain them?
+
+An unusual pattern is that listings that require minimum nights as a multiple of 5 are particularly popular. For example, staying at a Airbnb for a month is the tenth most popular Airbnb option. This may have something to do with people's relationships with these likeable numbers, or the Airbnb website offering up these "multiple of 5" listings more often. However, it would make more sense for "multiples of seven" of minimum nights to be more popular as homeowners help their clientele by requiring time stayed at their houses in weeks. 
+
+Perform an analysis of the variation in the "number_of_reviews" column. Make sure to explore different "binwidth" values in your analysis.
+
+```{r}
+ggplot(data = listings, mapping = aes(x = number_of_reviews)) + 
+  geom_histogram(binwidth = 1) + coord_cartesian(xlim = c(0, 100))
+
+listings %>% 
+  count(number_of_reviews) %>%
+  arrange(desc(n))
+```
+
+* Which values are the most common? Why?
+
+The most common review is no review, because most people don't even want to put in the effort to put in a review. I know I don't review the places that I stay, or anything for that matter, so this makes sense. 
+
+* Which values are rare? Why? Does that match your expectations?
+
+The rarest review values is proportional to the amount of reviews. This matches my expectation, because the more reviews on an Airbnb has the rarer it is to come by. 
+
+* Can you see any unusual patterns? What might explain them?
+
+There are no unusual patters, as the number of reviews follows the exponential decay trend, which happens quite rapidly too.
+
+Perform an analysis of the variation in the "availability_365" column. Make sure to explore different "binwidth" values in your analysis.
+
+```{r}
+ggplot(data = listings, mapping = aes(x = availability_365)) + 
+  geom_histogram(binwidth = 1)  + coord_cartesian(ylim = c(0, 6000))
+
+listings %>% 
+  count(availability_365) %>%
+  arrange(desc(n))
+```
+
+* Which values are the most common? Why?
+
+The most common availabilities go 365, 364, and 363. This makes sense, as most Airbnbs should be available all year round. This merits the owners most business and good reviews. 
+
+* Which values are rare? Why? Does that match your expectations?
+
+The rarest values are 280, 284, and 286. This doesn't match my expectation as these are very random values. This may be for a plethora of reasons, but it probably relate's to an owners specific time being at the house or apartment being listed, or if it's just their vacation house or second place of residence. 
+
+* Can you see any unusual patterns? What might explain them?
+
+There are some unusual spikes around 80-90 days, and 160-180 days, which are anomalies. The explanation for this pattern maybe that these day periods revolve around the half year and quarter year mark, which tells us how often these specific homeowners list their houses for. So most houses, are either available all year round, half year round, or quarter year round.
+
+
+Use your dataset to answer the following questions:
+
+
+
+

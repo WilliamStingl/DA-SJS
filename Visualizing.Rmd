@@ -1,0 +1,83 @@
+---
+title: "Data Analytics Project"
+author: "William Stingl"
+date: "9/9/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+
+```{r}
+
+library(tidyverse)
+```
+
+```{r}
+heart_failure_clinical_records_dataset.2
+```
+
+```{r}
+mushrooms
+```
+
+
+```{r}
+sex.labs<-c("Female", "Male")
+names(sex.labs)<-c("0", "1")
+Diabetes.labs<-c("No Diabetes", "Diabetes")
+names(Diabetes.labs)<-c("0", "1")
+
+
+ggplot(data = heart_failure_clinical_records_dataset.2) + geom_point(mapping = aes(x = age, y = creatinine_phosphokinase, color = DEATH_EVENT)) + facet_grid(sex~diabetes, labeller=labeller(sex=sex.labs, diabetes=Diabetes.labs)) + labs(x = "Age of the Tested Patients", y = "Levels of Creatinine Phosphokinase", title = "Factors that May Contribute to Heart Failure", subtitle = "Data Points are Tested Individuals", caption = "299 Patients Recorded") 
+```
+
+# Insights:
+
+I believe that there are very little trends and anomalies in the data depicted, which is an insight in itself. The data shows that almost anyone can have heart failure regardless if one is a diabetic, smoker, male or female. The difficulty in making a trend shows how there are a lot more factors that need to play into this analysis. It is only safe to say that as males and females get older, heart failure becomes more common. Even high CPK levels, which signifies muscle tissue damage to the brain or heart, can't even reliable predict heart failure death as in the male/no diabetes pool, there are three individuals well over 4,000 units of CPK that are still alive.
+Heart failure is not a black and white dilemma, where more comprehensive graphs and analytic methods are needed to make proper correlations. 
+
+
+
+
+
+
+
+
+
+Did not feel like renaming all the variables in the Bar graphs to the actual colors and classes. 
+
+Here is the key:
+
+(classes: edible=e, poisonous=p)
+
+cap-color: brown=n,buff=b,cinnamon=c,gray=g,green=r,pink=p,purple=u,red=e,white=w,yellow=y
+
+```{r}
+
+colnames(mushrooms)[colnames(mushrooms)== "cap-color"]<-"CapColor"
+
+
+ggplot(data = mushrooms) + geom_bar(mapping = aes(x = cap.color, fill = class), position = "dodge") + labs(x = "Color of the Mushroom Cap", y = "Number of Mushrooms", title = "Factors that May Contribute to the Toxicity of Mushrooms", subtitle = "Bars indicate a specific quantity and type of mushroom", caption = "
+KEY:
+
+(classes: edible=e, poisonous=p)
+
+cap-color: brown=n,buff=b,cinnamon=c,gray=g,green=r,pink=p,purple=u,red=e,white=w,yellow=y") 
+```
+
+After graphing all the 8,124 different mushroom caps, I've seen that all mushroom cap colors, except for green and purple, have the potential to be edible or poisonous. Yellow, pink, red, and buff mushroom caps, according to the data, are more likely to be poisonous than edible. With all mushroom cap colors except for green and purple, the color of the cap will not be enough for a mushroom forager to safely pick and eat a mushroom solely off the cap color. Cap colors cannot be the determining criteria to classify the toxicity of mushroom; more factors need to be considered. As I was messing around with more x variable, I saw gill colors also factor into toxicity, so maybe a graph combining those two factors will be more precise in one's safe mushroom foraging.The last thing you want is to be killed by a fungus. 
+
+
+
+
+
+
